@@ -1,0 +1,48 @@
+<div class="h-100 w-100 pdd-horizon-35" fxLayout="column" fxLayoutAlign="start stretch">
+  <div>
+    <h3 class="pdd-top-35 pdd-btm-10">Escoja una plantilla</h3>
+    <mat-divider></mat-divider>
+  </div>
+  <ng-container *ngIf="!isMainCallbacking; else callbackingBlock;">
+    <ng-container *ngIf="plantillas && plantillas.length > 0; else noPlantillasBlock;">
+      <div class="relative" fxFlex="fxFill">
+        <div class="full-absolute">
+          <perfect-scrollbar style="max-height: 100%;">
+            <div class="w-100" fxLayout="row wrap" fxLayoutAlign="start strecth"> 
+              <div class="padding-15" fxFlex="25" *ngFor="let plantilla of plantillas">
+                <mat-card class="pdd-vertical-5 h-100 pointer" [routerLink]="['/pages/editar-documento']" 
+                [queryParams]="{esNuevo:'true', plantillaId: plantilla.id}">
+                  <div class="card-overlay full-absolute" *ngIf="plantilla.isCallbacking">
+                      <mat-progress-bar class="main-progress-bar" mode="indeterminate"></mat-progress-bar>
+                  </div>
+                  <mat-card-content>
+                    <div class="mrg-top-10 open-sans font-size-16">{{ plantilla.nombre }}</div>
+                    <p class="direccion-label open-sans font-size-14">{{ plantilla.direccion }}</p>
+                  </mat-card-content>
+                  <div class="img-container mrg-btm-15">
+                    <div class="image-bg" [ngStyle]="{'background-image': 'url(' + rootUrl + plantilla.rutaImagenPreview + '?' + ahora + ')'}">
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #callbackingBlock>
+  <div class="h-100 w-100" fxLayout="row" fxLayoutAlign="center center">
+    <dx-load-indicator  height="150" width="150"></dx-load-indicator>
+  </div>
+</ng-template>
+<ng-template #noPlantillasBlock>
+  <div class="empty-page">
+    <div class="radius-container">
+      <mat-icon>add_to_photos</mat-icon>
+      <div class="message open-sans">No se han creado plantillas</div>
+    </div>
+  </div>
+</ng-template>

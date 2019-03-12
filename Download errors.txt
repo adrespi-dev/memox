@@ -1,0 +1,12 @@
+﻿Sorry, there was a problem downloading some files from OneDrive. Please try again.
+
+administrar-perfiles.component.scss - https://onedrive.live.com/?cid=490882e6f1e32dc1&id=490882E6F1E32DC1%21141423&action=Download
+
+side-menu.component.scss - https://onedrive.live.com/?cid=490882e6f1e32dc1&id=490882E6F1E32DC1%21136366&action=Download
+
+app.component.css - https://onedrive.live.com/?cid=490882e6f1e32dc1&id=490882E6F1E32DC1%21109744&action=Download
+
+.gitkeep - https://onedrive.live.com/?cid=490882e6f1e32dc1&id=490882E6F1E32DC1%21109745&action=Download
+
+
+

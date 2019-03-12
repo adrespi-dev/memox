@@ -1,0 +1,31 @@
+.panel {
+    transition-duration: .4s;
+    transition-timing-function: cubic-bezier(.25,.8,.25,1);
+    transform: translateX(100%);
+    background: white;
+
+    &.show {
+        transform: translateX(0%);
+    }
+}
+
+.btn-accion {
+    min-width: 160px;
+}
+
+.panel-header {
+    background: #3589fd;
+    height: 64px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 99;
+}
+
+.panel-body {
+    background: white;
+}
+
+.security-illustration {
+    
+}

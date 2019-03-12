@@ -1,0 +1,9 @@
+<mat-form-field class="w-100" appearance="outline">
+  <mat-label>Serie del documento</mat-label>
+  <mat-select (change)="onChange()" [(ngModel)] = "parametro._serieId">
+    <mat-option *ngFor="let serie of series" [value]="serie.id">
+      {{ serie.plantilla }}
+    </mat-option>
+  </mat-select>
+  <mat-icon matSuffix>extension</mat-icon>
+</mat-form-field>

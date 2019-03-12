@@ -1,0 +1,59 @@
+@import '~@angular/material/theming';
+
+button.btn-spinner {
+    .mat-button-wrapper {
+        display: flex;
+        mat-progress-spinner {
+            margin-top: 6px;
+            margin-right: 10px;
+        }
+    }
+}
+
+.button-fill {
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px 4px 0 0;
+    background-color: rgba(0,0,0,.04);
+}
+
+.fixed-button {
+    position: fixed !important;
+    bottom: 35px;
+    z-index: 3;
+    right: 35px;
+}
+
+.btn-new-document {
+    padding: 5px 15px;
+    border-radius: 30px;
+    background: white;
+    border: 1px solid #c1c1c1;
+    cursor: pointer;
+    outline: none;
+    @include mat-elevation(2);
+
+    .mat-icon {
+        margin-right: 8px;
+        color: #1967d2;
+        height: 36px;
+        width: 36px;
+        font-size: 36px;
+    }
+
+    span {
+        font-weight: 600;
+    }
+
+    &:hover {
+        @include mat-elevation(6);
+    }
+
+    &:active {
+        background: #e8f0fe;
+        background: #f3f3f3;
+        @include mat-elevation(4);
+    }
+}

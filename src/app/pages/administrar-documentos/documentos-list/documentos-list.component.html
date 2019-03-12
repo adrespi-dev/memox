@@ -1,0 +1,78 @@
+<ng-container *ngIf="isCallbacking">
+    <div class="w-100"  fxLayout="row" fxLayoutAlign="center center">
+      <div class="indicator-container mat-elevation-z8">
+        <dx-load-indicator [visible]="true"></dx-load-indicator>
+      </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!isCallbacking">
+  <ng-container *ngIf="documentos?.length < 1; else documentosListBlock;">
+
+  </ng-container>
+</ng-container>
+
+<ng-template #documentosListBlock>
+  <ng-container *ngFor="let documento of documentos">
+    <div class="documento-container pointer" [class.active]="documento.id === documentoSeleccionado?.id" fxLayout="row" fxLayoutAlign="start stretch" (click)="clickDocumento.emit(documento)">
+      <div class="img-preview">
+        <div [ngStyle]="{ 'background-image': 'url(' + rootUrl + documento.rutaImagenPreview + ')'}" style="height: 150px;width: 200px;background-size: cover;"></div>
+      </div>
+      <div class="pdd-horizon-15" fxFlex="fxFill">
+        <div class="h-100 w-100" fxLayout="column" fxLayoutAlign="start stretch">
+          <div fxFlex="fxFill">
+            <div class="text-bold open-sans font-size-18">
+              {{ documento.codigo }}
+            </div>
+            <div class="mrg-top-5 font-size-13">
+              <span>
+                por <span class="text-bold">
+                {{ documento.usuarioCreadorNombreCompleto }}
+                </span> de 
+                <span class="text-bold"> {{ documento.direccion}}</span>
+              </span>
+            </div>
+            <div class="mrg-top-15">
+              {{ documento.observacion }}
+            </div>
+          </div>
+          <div>
+            <div class="" style="height: 25px;" fxLayout="row" fxLayoutAlign="start center">
+              <span class="mrg-right-10">Para:</span>
+              <mat-chip-list>
+                <mat-chip *ngFor="let destino of documento.destinos">{{destino}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mrg-vertical-15">
+        <div class="separator-vertical"></div>
+      </div>
+      <div style="width: 250px;"  fxLayout="column" fxLayoutAlign="center center">
+        <div>
+          <div class="text-center text-bold">
+            {{ documento.estado }}
+          </div>
+          <div class="text-center" *ngIf="documento.usuarioPendiente">
+            {{ documento.usuarioPendiente }}
+          </div>
+          <div class="text-center mrg-top-15 fecha-lbl">
+            Creado en:
+          </div>
+          <div class="text-center">
+            {{ documento.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}
+          </div>
+          <ng-container *ngIf="documento.fechaFinalizacion">
+            <div class="text-center mrg-top-15 fecha-lbl">
+              Terminado en:
+            </div>
+            <div class="text-center">
+              {{ documento.fechaFinalizacion | date: 'dd/MM/yyyy HH:mm' }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

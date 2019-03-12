@@ -1,0 +1,88 @@
+.main-bg {
+    background: url('/assets/images/page-header-material.png');
+}
+
+.main-progress-bar {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    z-index: 10;
+}
+
+.login-overlay {
+    background: rgba(255, 255, 255, 0.62);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+    border-radius: 10px;
+}
+
+.login-container {
+    background: white;
+    min-height: 250px;
+    width: 480px;
+    border-radius: 10px;
+    padding: 36px 40px;
+
+    .title {
+        font-size: 25px;
+        text-transform: uppercase;
+    }
+}
+
+.body-container {
+    height: 320px;
+    overflow: hidden;
+}
+
+mat-list-item {
+    cursor: pointer;
+    color: black;
+    
+    &:hover {
+        background: #eeeeee;
+    }
+}
+
+.slider-panel {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+	transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.slide-1 {
+    transform: translateX(-100%);
+
+    &.show {
+        transform: translateX(0%);
+    }
+}
+
+.slide-2 {
+    transform: translateX(100%);
+
+    &.show {
+        transform: translateX(0%);
+    }
+}
+
+.avatar {
+    border-radius: 50%;
+    height: 36px;
+    min-height: 36px;
+    width: 36px;
+    min-width: 36px;
+}
+
+.back-button {
+    padding: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    min-width: 0px;
+}

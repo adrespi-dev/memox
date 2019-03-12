@@ -1,0 +1,64 @@
+<dx-popup class="popup-style-1" 
+  [(visible)]="showModal" 
+  height="auto"
+  title = "Cambiar contraseña"
+  [showCloseButton] = "!cambiarClaveObligatoria"
+  [closeOnBackButton]= "!cambiarClaveObligatoria"
+  [closeOnOutsideClick] = "false"
+  width="400">
+  <div class="h-100 w-100" *dxTemplate="let data of 'content'">
+    <div class="padding-25">
+      <form [formGroup]="form" (submit)="submitForm()" *ngIf="form">
+        <div class="w-100">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Contraseña Actual</mat-label>
+            <input type="password" matInput placeholder="Contraseña Actual" formControlName="contraseñaActual">
+            <mat-icon matSuffix
+              [class.text-success]="this.form.get('contraseñaActual').valid">
+              {{ (this.form.get('contraseñaActual').valid) ? 'check' : 'security' }}
+            </mat-icon>
+            <mat-error *ngIf="form.get('contraseñaActual').hasError('required')">Campo requerido</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="w-100 mrg-top-15">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Nueva Contraseña</mat-label>
+            <input type="password" matInput placeholder="Nueva Contraseña" formControlName="contraseñaNueva">
+            <mat-icon matSuffix
+              [class.text-success]="this.form.get('contraseñaNueva').valid">
+              {{ (this.form.get('contraseñaNueva').valid) ? 'check' : 'security' }}
+            </mat-icon>
+            <mat-error *ngIf="form.get('contraseñaNueva').hasError('required')">Campo requerido</mat-error>
+          </mat-form-field>
+        </div>
+        
+        <div class="w-100 mrg-top-15">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Confirmar Nueva Contraseña</mat-label>
+            <input type="password" matInput placeholder="Nueva Contraseña" formControlName="contraseñaNuevaConfirm">
+            <mat-icon matSuffix
+              [class.text-success]="this.form.get('contraseñaNuevaConfirm').valid">
+              {{ (this.form.get('contraseñaNuevaConfirm').valid) ? 'check' : 'security' }}
+            </mat-icon>
+            <mat-error *ngIf="form.get('contraseñaNuevaConfirm').hasError('required')">Campo requerido</mat-error>
+            <mat-error *ngIf="form.get('contraseñaNuevaConfirm').hasError('matchPassword')">La contraseña no coincide.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="text-right">
+          <button mat-raised-button color="accent" type="submit" [disabled]="isCallbacking">Cambiar Clave</button>
+        </div>
+
+        <div class="mrg-top-20 text-center" *ngIf="isCallbacking">
+          <dx-load-indicator  height="60" width="60"></dx-load-indicator>
+        </div>
+
+        <div class="error-panel" *ngIf="errorMessage">
+          <mat-icon>error</mat-icon>
+          <div class="error-message" [innerHTML]="errorMessage"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</dx-popup>

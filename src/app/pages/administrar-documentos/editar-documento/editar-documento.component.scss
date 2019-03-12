@@ -1,0 +1,36 @@
+.fixed-element {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 1px;
+    background: transparent;
+}
+
+.pointer-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+.info-panel {
+    background: white;
+    margin: 0px;
+}
+
+.success {
+    .radius-container {
+        background: white;
+        
+        mat-icon {
+            color: #5ec58d;
+        }
+    
+        .message {
+            // color: #0a7d3f;
+        }
+    }
+}

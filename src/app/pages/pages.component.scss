@@ -1,0 +1,21 @@
+.header-wrapper {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+}
+
+.main-container {
+    padding-top: 64px;
+}
+
+mat-drawer {
+    width: 310px;
+
+    &.is-editing {
+        width: 780px;
+    }
+}
+
+mat-drawer-container {
+    background: white;
+}

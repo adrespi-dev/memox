@@ -1,0 +1,42 @@
+<div class="h-100 w-100 relative">
+    <app-loader *ngIf="isCallbacking"></app-loader>
+    <div class="h-100 w-100 relative">
+      <ng-container *ngIf="pasos.length < 1">
+        <div class="empty-page">
+          <div class="radius-container">
+              <mat-icon>timeline</mat-icon>
+              <div class="message open-sans">
+                No hay pasos.
+              </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="pasos.length > 0">
+        <perfect-scrollbar class="full-absolute">
+          <div class="padding-15">
+            <div class="obs-container mrg-btm-30" *ngFor="let paso of pasos">
+              <div class="user-avatar" fxLayout="row" fxLayoutAlign="start center">
+                <img userFoto [userName]="paso.usuario">
+                <div>
+                  <div>
+                    <span class="nombre">{{ paso.nombreCompleto }}</span> <span class="fecha">{{ paso.fechaInicio | date:'yyyy-MM-dd HH:mm' }}</span>
+                  </div>
+                  <div class="paso">
+                    {{ paso.paso }} <span class="estado" [ngClass]="paso.estado">{{ paso.estado }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="observacion">
+                <span *ngIf="paso.observacion">
+                  {{ paso.observacion }}
+                </span>
+                <span class="muted" *ngIf="!paso.observacion">
+                  Paso pendiente
+                </span>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </ng-container>
+    </div>
+  </div>

@@ -1,0 +1,17 @@
+<div class="app" fxLayout="column" fxLayoutAlign="space-between">
+  <div class="header-wrapper mat-elevation-z2">
+    <app-header (menuToggleClick)="isMenuVisible = !isMenuVisible"></app-header>
+  </div>
+  <div class="main-container" fxFlex="fxFill">
+    <mat-drawer-container class="h-100" [autosize]="true">
+      <mat-drawer class="main-drawer" #drawer [opened]="isMenuVisible" [mode]="menuMode" 
+        [class.is-editing]="isMenuEditing" [disableClose]="isMenuEditing">
+        <app-side-menu (toogleMenuEdit)="onToogleEditMenuMode()" [(isMenuEditing)]="isMenuEditing"></app-side-menu>
+      </mat-drawer>
+        <router-outlet></router-outlet>
+    </mat-drawer-container>
+  </div>
+</div>
+
+<app-cambiar-clave></app-cambiar-clave>
+<app-cambiar-datos-usuario></app-cambiar-datos-usuario>

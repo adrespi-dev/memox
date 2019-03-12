@@ -1,0 +1,62 @@
+.error-panel {
+    background-color: rgba(0,0,0,.04);
+    padding: 20px 15px;
+    margin-top: 10px;
+    color: #f44336;
+    display: flex;
+    align-items: center;
+    //justify-content: space-around;
+
+    mat-icon {
+        margin-right: 10px;
+    }
+
+    .error-message {
+        line-height: 24px;
+        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        white-space: pre-wrap;       /* css-3 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+        word-break: break-all;
+        white-space: normal;
+    }
+
+    ul {
+        padding-left: 15px;
+        list-style-type: initial;
+        word-break: break-word;
+    }
+}
+
+.info-panel {
+    background-color: rgba(0,0,0,.04);
+    padding: 20px 15px;
+    margin-top: 10px;
+    color: #368bf4;
+    display: flex;
+    align-items: center;
+    //justify-content: space-around;
+
+    mat-icon {
+        margin-right: 10px;
+    }
+
+    .message {
+        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        white-space: pre-wrap;       /* css-3 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+        word-break: normal;
+        white-space: normal;
+    }
+
+    ul {
+        padding-left: 15px;
+        list-style-type: initial;
+        word-break: break-word;
+    }
+}

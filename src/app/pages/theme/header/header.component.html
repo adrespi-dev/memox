@@ -1,0 +1,40 @@
+<mat-toolbar>
+  <mat-toolbar-row class="no-pdd-right" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="start center" >
+      <button mat-icon-button class="mrg-right-15" (click)="menuToggleClick.emit()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a>Memox</a>
+    </div>
+    <div class="h-100" fxLayout="row" fxLayoutAlign="start center">
+      <button routerLink="nuevo-documento" class="btn-new-document mrg-right-10" fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-icon>add</mat-icon>
+        <span>Documento</span>
+      </button>
+      <div class="user-panel h-100" [class.active]="isMenuUserOpened" fxLayout="row wrap" fxLayoutAlign="start center" [matMenuTriggerFor]="menu" (click)="isMenuUserOpened = true">
+        <div class="user-avatar" fxLayout="row" fxLayoutAlign="start start">
+          <img userFoto [userName]="user?.userName">
+          <div class="w-100" fxLayout="column" fxLayoutAlign="center stretch">
+            <span class="title open-sans">{{ user?.nombreCompleto || 'Cargando...' }}</span>
+            <span class="subtitle open-sans">{{ user?.direccion  || 'Cargando...'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu" overlapTrigger="false" (closed)="isMenuUserOpened = false">
+  <button mat-menu-item (click)="onCambiarDatosUsuarioClick()">
+    <mat-icon>face</mat-icon>
+    <span>Mis Datos</span>
+  </button>
+  <button mat-menu-item (click)="onCambiarClaveClick()">
+    <mat-icon>security</mat-icon>
+    <span>Cambiar clave</span>
+  </button>
+  <button mat-menu-item (click)="onCerrarSesionClick()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu>

@@ -1,0 +1,32 @@
+<div class="omnisearch-click-wrapper" 
+  (clickOutside)="onFocusOut()"  clickOutside>
+  <div class="omnisearch" [ngClass]="appareance" #omnisearch
+    fxLayoutAlign="space-between center">
+    <input (keyup.enter)="onSearch()"
+    (focus)="onFocus($event)"
+    [placeholder]="placeholder" [(ngModel)]="searchTerm"/>
+    <button mat-icon-button *ngIf="!searching" (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <mat-progress-spinner *ngIf="searching"
+      class="spinner"
+      color="white"
+      diameter="24"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+  <div class="omnisearch-menu-popup mat-elevation-z6" 
+    [style.width.px]="popupWidth" *ngIf="searchHistory && searchHistory.length > 0">
+    <perfect-scrollbar style="max-height: 100%;">
+      <mat-nav-list>
+        <h3 mat-subheader>Ultimas Búsquedas</h3>
+        <mat-list-item *ngFor="let oldSearchTerm of searchHistory.slice().reverse()"  (click)="setSearchFromHistory(oldSearchTerm)">
+          <a fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="mrg-right-10" mat-list-icon>access_time</mat-icon>
+            <h4>{{ oldSearchTerm }}</h4>
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </perfect-scrollbar>
+  </div>
+</div>

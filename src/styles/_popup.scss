@@ -1,0 +1,29 @@
+.cdk-overlay-container {
+    z-index: 4000;
+}
+.popup-style-1 {
+    .dx-popup-content {
+        padding: 0px;
+    }
+
+    .dx-popup-title {
+        // background-image: url(/assets/images/page-header-material.png);
+        background-size: cover;
+        background-color: #1967d2 !important;
+        background-color: #0597ff !important;
+        color: #fff !important;
+    }
+
+    .dx-toolbar-after {
+        .dx-icon {
+            color: white !important;
+        }
+    }
+
+}
+
+.popover-parametro {
+    .dx-popup-content {
+        padding: 0px;
+    }
+}

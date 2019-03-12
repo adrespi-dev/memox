@@ -1,0 +1,40 @@
+.cascade-grid {
+    .dx-datagrid-rowsview {
+        background: #fafafa;
+    }
+
+    .dx-row.dx-data-row {
+        position: relative;
+        //display: block;
+        background: white;
+        animation: fadeIn .25s linear;
+        animation-fill-mode: both;
+        //transform: translateX(150px);
+
+        &.no-animated {
+            animation: none !important;
+        }
+    }
+}
+
+.ripple-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(150px);
+    }
+    75% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+    100% {
+        //opacity: 1;
+    }
+}

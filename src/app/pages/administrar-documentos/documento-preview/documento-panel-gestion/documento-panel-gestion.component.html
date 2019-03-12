@@ -1,0 +1,138 @@
+<ng-container *ngIf="documento.estadoId === 3">
+  <div class="h-100" fxLayout="column" fxLayoutAlign="center center">
+    <div>
+      <button mat-raised-button color="primary" 
+        (click)="goToEditDocumento()"
+      >Corregir documento</button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container  *ngIf="documento.estadoId === 1">
+    <div class="h-100 mrg-top-25" fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button class="btn-accion" mat-raised-button color="primary" (click)="accionId = 2">Aprobar</button>
+      <button class="btn-accion" mat-raised-button color="warn" (click)="accionId = 1">Rechazar</button>
+    </div>
+
+    <div [class.show]="accionId === 1" class="panel full-absolute">
+      <app-documento-panel-rechazar 
+        [documento]="documento"
+        (clickBack)="accionId = 0"
+        (documentoRechazado)="accionTerminada.emit()"
+      ></app-documento-panel-rechazar>
+    </div>
+
+    <div [class.show]="accionId === 2" class="panel full-absolute">
+      <div class="panel-header mat-elevation-z6" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button class="mrg-left-5" (click)="accionId = 0" mat-icon-button>
+            <mat-icon class="text-white">arrow_back</mat-icon>
+          </button>
+          <div class="mrg-left-10 text-white font-size-18">
+            Aprobación de documento
+          </div>
+        </div>
+      </div>
+      <dx-validation-group #valGrpAprobar>
+        <div class="w-100 pdd-top-80" fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="w-100 pdd-horizon-15">
+            <dx-text-area
+              [height]="90"
+              placeholder="Agregar observación para aprobar"
+              [(value)]="observacionAprobacion">
+              <dx-validator>
+                <dxi-validation-rule 
+                  type="required"
+                  message="Porfavor ingrese una observación">
+                </dxi-validation-rule>
+              </dx-validator>
+            </dx-text-area>
+          </div>
+          <button mat-fab color="primary" (click)="aprobarDocumento(valGrpAprobar)">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </dx-validation-group>
+    </div>
+  
+</ng-container>
+
+<ng-container *ngIf="documento.estadoId === 4">
+  <div class="h-100" fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button mat-raised-button color="primary" 
+        (click)="accionId = 3">Subir escaneo</button>
+
+      <button id="btn-descargar-sin-firmar" mat-raised-button color="accent" 
+        (click)="showPopoverSinFirmar = true">Descargar original</button>
+  </div>
+
+  <div [class.show]="accionId === 3" class="panel full-absolute">
+    <app-documento-panel-subir-escanear 
+      [documento]="documento"
+      (clickBack)="accionId = 0"
+      (escaneoSubido)="accionTerminada.emit()"
+    ></app-documento-panel-subir-escanear>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="documento.estadoId === 5">
+  <div class="h-100" fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button mat-raised-button color="primary" 
+        [routerLink]="['/pages/aprobar-escaneo', documento.id]">Aprobar escaneo</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="documento.estadoId === 2">
+  <div class="h-100" fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button mat-raised-button color="primary" 
+      (click)="showPopupDescargarOriginal = true">Descargar documento original</button>
+  </div>
+</ng-container>
+
+<dx-popover #popoverSinFirmar
+  target="#btn-descargar-sin-firmar"
+  height="auto"
+  width="auto"
+  [(visible)]="showPopoverSinFirmar"
+>
+  <div *dxTemplate="let data of 'content'">
+    <dx-text-area
+      class="mrg-btm-15"
+      width = "300"
+      height="150"
+      placeholder="Agregar observación"
+      [(value)]="observacionDocSinFirma">
+    </dx-text-area>
+    <button mat-raised-button color="primary" (click)="descargarArchivo(1)">Confirmar descarga</button>
+  </div>
+</dx-popover>
+
+
+<dx-popup
+  [(visible)]="showPopupDescargarOriginal" 
+  (onHidden)="contraseniaDocFirma = ''; observacionDocFirma='';"
+  height="310" 
+  width="650"
+  title="Descargar documento original">
+  <div class="relative" *dxTemplate="let data of 'content'">
+    <app-loader *ngIf="isCallbackingPopupDocOriginal"></app-loader>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <div class="security-illustration" class="text-center">
+        <img src="assets/images/laptop-security.png" width="280"/>
+      </div>
+      <div fxFlex="fxFill">
+        <dx-text-box 
+          mode="password"
+          [(value)]="contraseniaDocFirma"
+          placeholder="Ingresa tu contraseña porfavor"
+        ></dx-text-box>
+        <dx-text-area class="mrg-top-25"
+          height="90"
+          [(value)]="observacionDocFirma"
+          placeholder="Ingresa una observación"
+        ></dx-text-area>
+        <button class="mrg-top-25" mat-raised-button color="primary" (click)="descargarArchivo(2)">Confirmar descarga</button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

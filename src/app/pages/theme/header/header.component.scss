@@ -1,0 +1,45 @@
+@import '~@angular/material/theming';
+
+mat-toolbar {
+    background: white;
+}
+
+.user-panel {
+    padding: 0 5px;
+    max-width: 220px !important;
+    width: 220px;
+    cursor: pointer;
+
+    .user-avatar {
+        justify-content: start;
+        width: 100%;
+
+        .title {
+            width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .subtitle {
+            width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &:hover, &.active {
+        background: #731af3;
+    
+        .user-avatar {
+            .title{
+                color: white;
+            }
+    
+            .subtitle {
+                color: #ffe484;
+            }
+        }
+        @include mat-elevation(3);
+    }
+}

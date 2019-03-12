@@ -1,0 +1,121 @@
+<div class="h-100 w-100 relative">
+<app-loader *ngIf="isCallbacking"></app-loader>
+  <ng-container *ngIf="!documento">
+    <div class="w-100 h-100" fxLayout="row" fxLayoutAlign="center center">
+      <div class="h-100 w-100 relative">
+        <!--div class="empty-page">
+          <div class="radius-container">
+              <mat-icon>arrow_left</mat-icon>
+              <div class="message open-sans">
+                Primero seleccione un documento.
+              </div>
+          </div>
+        </div-->
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="documento">
+    <div class="w-100 h-100" fxLayout="row" fxLayoutAlign="start stretch">
+        <div fxFlex="fxFill">
+            <div class="h-100 w-100">
+                <iframe class="w-100" style="height: 99%;" *ngIf="pdfUrl" [src]="pdfUrl"></iframe>
+            </div>
+        </div>
+        <div style="width: 650px;">
+            <mat-tab-group class="h-100 w-100"
+                [(selectedIndex)]="selectedTab">
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div fxLayout="column" fxLayoutAlign="start center">
+                            <mat-icon>home</mat-icon>
+                            <div>Documento</div>
+                        </div>
+                    </ng-template>
+                    <div class="padding-15">
+                        <div class="mrg-btm-15 w-100" fxLayout="row" fxLayoutAlign="space-between center">
+                            <h2 class="codigo open-sans">{{ documento.codigo }}</h2>
+                            <button mat-icon-button (click)="recargarDocumento()">
+                                <mat-icon color="primary">refresh</mat-icon>
+                            </button>
+                        </div>
+                        <div class="mrg-top-10 mrg-btm-20 w-100" fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="user-avatar" fxLayout="row" fxLayoutAlign="start start">
+                                <img userFoto [userName]="documento.usuarioCreador.userName">
+                                <div class="w-100" fxLayout="column" fxLayoutAlign="center stretch">
+                                    <span class="title open-sans">{{ documento.usuarioCreador || 'Cargando...' }}</span>
+                                    <span class="subtitle open-sans">{{ documento.usuarioCreadorDireccion  || 'Cargando...'}}</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="estado" [ngClass]="documento.estado">{{ documento.estado || 'Cargando...' }}</div>
+                                <div class="fecha">{{ documento.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</div>
+                            </div>
+                        </div>
+                        <div class="mrg-top-15 mrg-btm-30">
+                            <mat-chip-list>
+                                <mat-chip color="accent" selected *ngFor="let destino of documento.destinos">{{ destino }}</mat-chip>
+                            </mat-chip-list>
+                        </div>
+                        <div class="mrg-vertical-10">
+                            <div class="open-sans muted">Descripción del documento</div>
+                            <div class="observacion padding-15">
+                                {{ documento.observacion }}
+                            </div>
+                        </div>
+                        <ng-container *ngIf="puedoGestionarDocumento">
+                            <app-documento-panel-gestion 
+                                [documento]="documento"
+                                (accionTerminada)="recargarDocumento()"
+                            ></app-documento-panel-gestion>
+                        </ng-container>
+                    </div>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div fxLayout="column" fxLayoutAlign="start center">
+                            <mat-icon>message</mat-icon>
+                            <div>Observaciones</div>
+                        </div>
+                    </ng-template>
+                    <app-documento-observaciones-list [documentoId]="documento.id"></app-documento-observaciones-list>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div fxLayout="column" fxLayoutAlign="start center">
+                            <mat-icon>timeline</mat-icon>
+                            <div>Flujo</div>
+                        </div>
+                    </ng-template>
+                    <app-documento-flow [documentoId]="documento.id"></app-documento-flow>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div fxLayout="column" fxLayoutAlign="start center">
+                            <mat-icon>cloud_download</mat-icon>
+                            <div>Descargas</div>
+                        </div>
+                    </ng-template>
+                    <app-documento-descargas [documentoId]="documento.id"></app-documento-descargas>
+                </mat-tab>
+
+                <!--mat-tab *ngIf="puedoGestionarDocumento">
+                    <ng-template mat-tab-label>
+                        <div fxLayout="column" fxLayoutAlign="start center">
+                            <mat-icon>reply_all</mat-icon>
+                        </div>
+                    </ng-template>
+                    <ng-container *ngIf="selectedTab === 2">
+                        
+                    </ng-container>
+                </mat-tab-->
+
+            </mat-tab-group>
+        </div>
+    </div>
+  </ng-container>
+</div>
+

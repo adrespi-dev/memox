@@ -1,0 +1,29 @@
+mat-drawer {
+    width: 650px;
+    z-index: 9;
+}
+
+.image-user {
+  background-image: url('/assets/images/avatars/profile.jpg');
+  background-size: cover;
+}
+
+.nav-list-item {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+mat-list-item{
+  &.selected {
+    background: #1967d2;
+    color: white;
+
+    &:hover {
+      background: #1967d2;
+    }
+  }
+}
+
+.search-box {
+    width: 550px;
+}

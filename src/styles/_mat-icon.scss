@@ -1,0 +1,9 @@
+mat-icon {
+    transition: transform 0.1s ease-in-out;
+
+    &.icon-36 {
+        width: 36px;
+        height: 36px;
+        font-size: 36px;
+    }
+}

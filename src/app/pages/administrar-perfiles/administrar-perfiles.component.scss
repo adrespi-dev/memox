@@ -1,0 +1,20 @@
+.select-row {
+    background: #f3f3f3;    
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 40px;
+
+    mat-divider {
+        width: 300px;
+        border-width: 5px;
+        border-color: black;
+        margin-left: 15px;
+    }
+    &.selected {
+
+    }
+}
+
+.search-box {
+    width: 550px;
+}

@@ -1,0 +1,6 @@
+<mat-form-field class="w-100" appearance="outline">
+  <mat-label>Formato de fecha</mat-label>
+  <input matInput (change)="onChange()" [(ngModel)] = "parametro._formatoFecha" autocomplete="off"/>
+  <mat-icon matSuffix>date_range</mat-icon>
+  <mat-hint>Ejemplo de fecha: {{ Ahora | date: parametro._formatoFecha}}</mat-hint>
+</mat-form-field>

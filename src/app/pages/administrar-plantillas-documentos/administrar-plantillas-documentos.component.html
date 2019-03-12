@@ -1,0 +1,97 @@
+<div class="h-100 w-100 pdd-horizon-35" fxLayout="column" fxLayoutAlign="start stretch">
+  <div>
+    <h3 class="pdd-top-35 pdd-btm-10">Plantillas de documentos</h3>
+    <mat-divider></mat-divider>
+  </div>
+  <ng-container *ngIf="!isMainCallbacking; else callbackingBlock;">
+    <ng-container *ngIf="plantillas && plantillas.length > 0; else noPlantillasBlock;">
+      <div fxFlex="fxFill">
+        <div class="h-100 w-100 relative">
+          <perfect-scrollbar class="full-absolute" style="max-height: 100%;">
+            <div class="w-100" fxLayout="row wrap" fxLayoutAlign="start strecth"> 
+              <div class="padding-15" fxFlex="25" *ngFor="let plantilla of plantillas">
+                <mat-card class="h-100">
+                  <div class="card-overlay full-absolute" *ngIf="plantilla.isCallbacking">
+                      <mat-progress-bar class="main-progress-bar" mode="indeterminate"></mat-progress-bar>
+                  </div>
+                  <div class="pdd-btm-15" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <img class="avatar" userFoto [userName]="plantilla.usuarioCreacion"/>
+                      <div fxLayout="column" fxLayoutAlign="center start">
+                        <mat-card-title>{{ plantilla.nombreCompletoCreador }}</mat-card-title>
+                        <mat-card-subtitle>{{ plantilla.perfilCreador }}</mat-card-subtitle>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-icon-button class="mrg-horizon-10" (click)="plantillaSeleccionada = plantilla;" [matMenuTriggerFor]="menuPlantilla">
+                        <mat-icon>settings</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <mat-divider></mat-divider>
+                  <mat-card-content>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <div>
+                        <div class="mrg-top-10 open-sans font-size-16">{{ plantilla.nombre }}</div>
+                        <p class="direccion-label open-sans font-size-14">{{ plantilla.direccion }}</p>
+                      </div>
+                      <div>
+                        <mat-chip-list>
+                          <mat-chip [color]="(plantilla.numeroPasos > 0) ? 'primary' : 'danger'" selected>
+                            {{ (plantilla.numeroPasos > 0) ? 'Configurado' : 'No configurado' }}
+                          </mat-chip>
+                        </mat-chip-list>
+                      </div>
+                    </div>
+                    <!--mat-divider></mat-divider>
+                    <p class="pdd-top-10">
+                      Documento
+                    </p-->
+                  </mat-card-content>
+                  <div class="img-container mrg-btm-15">
+                    <div class="image-bg" [ngStyle]="{'background-image': 'url(' + rootUrl + plantilla.rutaImagenPreview + '?' + ahora + ')'}">
+                    </div>
+                  </div>
+                  <div class="card-actions" fxLayout="row" fxLayoutAlign="space-around center">
+                    <a mat-raised-button color="accent" [routerLink]="'/pages/editar-plantilla/' + plantilla.id">Modificar</a>
+                    <button mat-button color="warn" (click)="onDeletePlantilla(plantilla)">Eliminar</button>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<a class="fixed-button" mat-fab [routerLink]="'/pages/nueva-plantilla'">
+  <mat-icon>add</mat-icon>
+</a>
+<ng-template #callbackingBlock>
+  <div class="h-100 w-100" fxLayout="row" fxLayoutAlign="center center">
+    <dx-load-indicator  height="150" width="150"></dx-load-indicator>
+  </div>
+</ng-template>
+<ng-template #noPlantillasBlock>
+  <div class="empty-page">
+    <div class="radius-container">
+      <mat-icon>add_to_photos</mat-icon>
+      <div class="message open-sans">No se han creado plantillas</div>
+    </div>
+  </div>
+</ng-template>
+
+<mat-menu #menuPlantilla="matMenu">
+  <button mat-menu-item (click)="showModalPasos = true">
+    <mat-icon>file_copy</mat-icon>
+    <span>Pasos</span>
+  </button>
+</mat-menu>
+
+<app-editar-plantilla-pasos 
+  [(showModal)]="showModalPasos" 
+  [plantilla]="plantillaSeleccionada"
+  (saved)="showModalPasos = false; refreshPlantillas();"
+></app-editar-plantilla-pasos>

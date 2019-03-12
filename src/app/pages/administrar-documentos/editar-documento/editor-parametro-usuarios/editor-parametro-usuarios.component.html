@@ -1,0 +1,23 @@
+<div class="usuarios-container padding-20" *ngIf="parametro">
+  <div class="label mrg-btm-10">Usuarios Seleccionados</div>
+  <dx-tag-box
+    placeholder="Seleccione los usuarios"
+    [dataSource]="usuarios"
+    valueExpr="id"
+    displayExpr="userName"
+    [(value)]="parametro.value"
+    [showSelectionControls]="true"
+    [searchEnabled]="true"
+    itemTemplate="customItem">
+    <div *dxTemplate="let user of 'customItem'">
+      <div class="user-avatar" fxLayout="row" fxLayoutAlign="start center">
+        <img userFoto [userName]="user?.userName">
+        <div>
+          {{ user.userName }}
+        </div>
+      </div>
+    </div>
+  </dx-tag-box>
+
+  <button mat-raised-button class="w-100 mrg-top-15" color="accent" (click)="onSetParametroValue()">Grabar</button>
+</div>

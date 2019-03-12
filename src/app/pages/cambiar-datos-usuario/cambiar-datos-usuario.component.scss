@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+
+.editable-avatar {
+    padding: 0px 15px;
+    
+    img {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        @include mat-elevation(2);
+        @include mat-elevation-transition;
+
+        &:hover {
+            @include mat-elevation(8);
+        }
+    }
+}
+
+.radius-container {
+    padding: 50px;
+    width: 250px;
+    height: 250px;
+}

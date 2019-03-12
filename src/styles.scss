@@ -1,0 +1,84 @@
+$border-color: #000;
+@import 'styles/reset';
+@import 'styles/mixins';
+@import 'styles/helpers';
+
+@import '~dragula/dist/dragula.css';
+
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$memo-app-primary: mat-palette($mat-blue);
+$memo-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$memo-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$memo-app-theme: mat-light-theme($memo-app-primary, $memo-app-accent, $memo-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($memo-app-theme);
+
+html, body {
+    height: 100%;
+    color: rgba(0,0,0,.6);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.app {
+    height: 100%;
+}
+
+p, a {
+    color: rgba(0,0,0,.6);
+}
+
+* {
+    box-sizing: border-box;
+    /*position: relative;*/
+}
+
+@import 'styles/sidemenu';
+@import 'styles/page-header';
+@import 'styles/omnisearch';
+@import 'styles/drawers';
+@import 'styles/mat-icon';
+@import 'styles/forms';
+@import 'styles/buttons';
+@import 'styles/datagrid';
+@import 'styles/error-panel';
+@import 'styles/popup';
+@import 'styles/popover';
+@import 'styles/avatars';
+@import 'styles/tabs';
+@import 'styles/typo';
+@import 'styles/empty-page';
+@import 'styles/lists';
+
+.accordion-1 {
+    .mat-expansion-panel-header-description {
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+
+.dx-toast-success {
+    background: #006b52 !important;
+}
+
+.resultados {
+    color: #1967d2;
+    margin-top: 15px;
+    font-weight: 500;
+}

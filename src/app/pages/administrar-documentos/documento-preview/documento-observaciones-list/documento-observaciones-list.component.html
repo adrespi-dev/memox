@@ -1,0 +1,91 @@
+<div class="h-100 w-100 relative">
+  <app-loader *ngIf="isCallbacking"></app-loader>
+  <div class="h-100 w-100 relative">
+    <ng-container *ngIf="dias.length < 1">
+      <div class="empty-page">
+        <div class="radius-container">
+            <mat-icon>message</mat-icon>
+            <div class="message open-sans">
+              No hay observaciones.
+            </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="dias.length > 0">
+      <perfect-scrollbar class="full-absolute">
+        <div class="padding-15">
+          <ng-container *ngFor="let dia of dias">
+            <div class="dia" fxLayout="row" fxLayoutAlign="start center" (click)="dia.abierto = !dia.abierto">
+              <mat-icon>keyboard_arrow_up</mat-icon>
+              <div class="mrg-left-10">{{dia.dia | date:'dd-MM-yyyy'}}</div>
+            </div>
+            <div class="grupo-observaciones pdd-horizon-10" *ngIf="dia.abierto === true">
+              <ng-container *ngFor="let observacion of dia.observaciones">
+                <div class="user-avatar  mrg-btm-30" fxLayout="row" fxLayoutAlign="start start">
+                  <img userFoto [userName]="observacion.usuarioGestion">
+                  <div fxFlex="fxFill">
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <div>
+                        <div>
+                          <span class="nombre">{{ observacion.usuarioGestion }}</span>
+                        </div>
+                        <div>
+                          <span class="direccion">{{ observacion.usuarioGestionDireccion }}</span>
+                        </div>
+                      </div>
+                      <div>
+                          <span class="estado" [class.respondido]="observacion.seRespondio">
+                            {{ (observacion.seRespondio) ? 'Respondida' : 'Pendiente' }}
+                          </span>
+                      </div>
+                    </div>
+                    <div class="observacion">
+                      {{ observacion.observacion }}
+                    </div>
+                    <ng-container *ngIf="!observacion.seRespondio && isEditable">
+                      <div class="mrg-top-15">
+                        <dx-text-area
+                          (onChange)="onRespuestaChange()"
+                          [height]="90"
+                          placeholder="Agregar una respuesta"
+                          [(value)]="observacion.respuesta">
+                          <dx-validator>
+                            <dxi-validation-rule 
+                              type="required"
+                              message="Porfavor ingrese una observación">
+                            </dxi-validation-rule>
+                          </dx-validator>
+                        </dx-text-area>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="observacion.seRespondio === true">
+                      <div class="user-avatar mrg-top-25 mrg-btm-10" fxLayout="row" fxLayoutAlign="start start">
+                        <img userFoto [userName]="observacion.usuarioRespuesta">
+                        <div fxFlex="fxFill">
+                          <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <div>
+                              <div>
+                                <span class="nombre">{{ observacion.usuarioRespuesta }}</span>
+                                <span class="mrg-left-10 fechaRespuesta">{{ observacion.fechaRespuesta | date:'dd/MM/yyyy HH:mm' }}</span>
+                              </div>
+                              <div>
+                                <span class="direccion">{{ observacion.usuarioRespuestaDireccion }}</span>
+                              </div>
+                              <div class="observacion">
+                                {{ observacion.respuesta }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </perfect-scrollbar>
+    </ng-container>
+  </div>
+</div>

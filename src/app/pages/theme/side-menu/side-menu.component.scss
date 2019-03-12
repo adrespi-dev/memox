@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+.icon-chooser {
+    width: 400px;
+    height: 400px;;
+}
+
+.handle {
+    margin-right: 15px;
+}
+
+.gu-transit {
+    @include mat-elevation(4);
+}

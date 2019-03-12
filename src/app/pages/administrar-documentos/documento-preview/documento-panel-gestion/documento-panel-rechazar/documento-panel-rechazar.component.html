@@ -1,0 +1,81 @@
+<div class="h-100 w-100 relative" fxLayout="column" fxLayoutAlign="start stretch">
+  <app-loader *ngIf="isCallbacking"></app-loader>
+  <div class="panel-header mat-elevation-z6" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <button class="mrg-left-5" (click)="clickBack.emit()" mat-icon-button>
+        <mat-icon class="text-white">arrow_back</mat-icon>
+      </button>
+      <div class="mrg-left-10 text-white font-size-18">
+        Rechazo de documento
+      </div>
+    </div>
+    <div>
+      <button mat-button (click)="grabarRechazo()" class="text-white mrg-right-5">Grabar</button>
+    </div>
+  </div>
+  <div fxFlex="fxFill">
+    <div class="panel-body h-100 h-100 relative pdd-top-65">
+      <ng-container *ngIf="observaciones.length < 1">
+        <div class="empty-page">
+          <div class="radius-container">
+              <mat-icon>message</mat-icon>
+              <div class="message open-sans">
+                No has agregado observaciones.
+              </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="observaciones.length > 0">
+        <div class="padding-15" *ngFor="let observacion of observaciones">
+          <div class="observacion pointer padding-10" fxLayout="row" fxLayoutAlign="space-between center" >
+            <div>
+              {{ observacion }}
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <div class="btn-edit">
+                <!--button class="mrg-right-5" color="primary" mat-icon-button>
+                  <mat-icon>edit</mat-icon>
+                </button-->
+              </div>
+              <div class="btn-borrar">
+                <button mat-icon-button (click)="eliminarObservacion(observacion)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div>
+    <dx-validation-group #valGrp>
+      <div class="w-100" style="height: 110px;" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="fxFill">
+          <div class="h-100 w-100 pdd-horizon-10">
+            <dx-text-area
+              [height]="90"
+              placeholder="Agregar observación"
+              [(value)]="nuevaObservacion">
+              <dx-validator>
+                <dxi-validation-rule 
+                  type="required"
+                  message="Porfavor ingrese una observación">
+                </dxi-validation-rule>
+              </dx-validator>
+            </dx-text-area>
+          </div>
+        </div>
+        <div>
+          <div class="pdd-horizon-10">
+            <button mat-fab color="primary" (click)="agregarObservacion(valGrp)">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </dx-validation-group>
+  </div>
+  <div>
+  </div>
+</div>

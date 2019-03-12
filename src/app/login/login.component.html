@@ -1,0 +1,143 @@
+<div class="main-bg w-100 h-100" fxLayout="row" fxLayoutAlign="center center">
+  <div class="login-container mat-elevation-z8 relative">
+    <mat-progress-bar class="main-progress-bar" mode="indeterminate" *ngIf="isCallbacking"></mat-progress-bar>
+    <div class="login-overlay" *ngIf="isCallbacking"></div>
+    <div class="header-container" fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <div class="title open-sans">
+          Memox - GADMCD Durán
+        </div>
+        <div class="open-sans">
+          Por Adrián Espinoza
+        </div>
+      </div>
+      <img src="assets/images/GAD.jpg" width="150">
+    </div>
+    <div class="body-container relative">
+      <div class="slider-panel slide-1" [class.show]="selectedPanel === 'userChooser'">
+        <ng-container *ngTemplateOutlet="userChooseBlock"></ng-container>
+      </div>
+      <div class="slider-panel slide-2" [class.show]="selectedPanel === 'signin'">
+        <ng-container *ngTemplateOutlet="signinBlock"></ng-container>
+      </div>
+      <div class="slider-panel slide-2" [class.show]="selectedPanel === 'recuperarClave'">
+        <ng-container *ngTemplateOutlet="recuperarClaveBlock"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #userChooseBlock>
+  <div class="userChooser mrg-top-25">
+    <mat-list>
+      <mat-list-item *ngFor="let user of users" (click)="setUser(user)">
+        <img matListAvatar userFoto [userName]="user.username">
+        <h3 matLine class="open-sans"> {{user.username}} </h3>
+        <p matLine>
+          <span> {{user.direccion}} </span>
+          <!--span >  {{message.content}} </span-->
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</ng-template>
+
+<ng-template #signinBlock>
+  <form class="h-100  mrg-top-45" [formGroup]="form" 
+    (submit)="submit()">
+    <div class="mrg-btm-25" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!selectedUser?.isNuevoUsuario">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <img class="avatar mrg-right-15"  userFoto [userName]="selectedUser?.username">
+          <div>
+            <div class="open-sans">
+              {{ selectedUser?.username }}
+            </div>
+            <p><span>{{ selectedUser?.direccion }}</span></p>
+          </div>
+        </div>
+        <div>
+          <button mat-icon-button type="button" (click)="selectedPanel = 'userChooser'">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="pdd-left-5 mrg-btm-25 w-100" *ngIf="selectedUser?.isNuevoUsuario">
+      <mat-form-field class="w-100">
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput placeholder="Nombre de usuario" formControlName="username" autocomplete="off">
+        <mat-icon matSuffix
+          [class.text-success]="this.form.get('username').valid">
+          {{ (this.form.get('username').valid) ? 'check' : 'face' }}
+        </mat-icon>
+        <mat-error *ngIf="form.get('username').hasError('required')">Campo requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="pdd-left-5 mrg-btm-25 w-100">
+      <mat-form-field class="w-100">
+        <mat-label>Contraseña</mat-label>
+        <input type="password" matInput placeholder="Contraseña" formControlName="password" autocomplete="off">
+        <mat-icon matSuffix
+          [class.text-success]="this.form.get('password').valid">
+          {{ (this.form.get('password').valid) ? 'check' : 'security' }}
+        </mat-icon>
+        <mat-error *ngIf="form.get('password').hasError('required')">Campo requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <a class="pdd-left-5 mrg-top-25 text-primary pointer font-size-14" (click)="selectedPanel = 'recuperarClave'">
+      ¿Has olvidado tu contraseña?
+    </a>
+    <div class="mrg-top-35" fxLayout="row" fxLayoutAlign="space-between center">
+      <button class="back-button" mat-button type="button" (click)="selectedPanel = 'userChooser'">
+        Volver
+      </button>
+      <button class="btn-spinner mrg-left-10"
+        mat-raised-button color="accent" type="submit">
+        <!--mat-progress-spinner  color="primary" diameter="24" mode="indeterminate">
+        </mat-progress-spinner-->
+        Siguiente
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #recuperarClaveBlock>
+  <form class="h-100  mrg-top-45" [formGroup]="formRecuperarClave" 
+    (submit)="recuperarClave()">
+    <div class="pdd-left-5 mrg-btm-25 w-100">
+      <mat-form-field class="w-100">
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput placeholder="Nombre de usuario" formControlName="username" autocomplete="off">
+        <mat-icon matSuffix
+          [class.text-success]="this.formRecuperarClave.get('username').valid">
+          {{ (this.formRecuperarClave.get('username').valid) ? 'check' : 'face' }}
+        </mat-icon>
+        <mat-error *ngIf="formRecuperarClave.get('username').hasError('required')">Campo requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="pdd-left-5 mrg-btm-25 w-100">
+      <mat-form-field class="w-100">
+        <mat-label>Correo</mat-label>
+        <input type="correo" matInput placeholder="Correo electrónico" formControlName="correo" autocomplete="off">
+        <mat-icon matSuffix
+          [class.text-success]="this.formRecuperarClave.get('correo').valid">
+          {{ (this.formRecuperarClave.get('correo').valid) ? 'check' : 'security' }}
+        </mat-icon>
+        <mat-error *ngIf="formRecuperarClave.get('correo').hasError('required')">Campo requerido</mat-error>
+        <mat-error *ngIf="formRecuperarClave.get('correo').hasError('email')">Correo inválido</mat-error>
+      </mat-form-field>
+    </div>
+    <a class="pdd-left-5 mrg-top-25 text-primary pointer font-size-14" (click)="selectedPanel = 'signin'">
+      ¿Recordaste tu contraseña?
+    </a>
+    <div class="mrg-top-35" fxLayout="row" fxLayoutAlign="space-between center">
+      <button class="btn-spinner mrg-left-10"
+        mat-raised-button color="accent" type="submit">
+        <!--mat-progress-spinner  color="primary" diameter="24" mode="indeterminate">
+        </mat-progress-spinner-->
+        Recuperar clave
+      </button>
+    </div>
+  </form>
+</ng-template>

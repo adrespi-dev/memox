@@ -1,0 +1,14 @@
+<div class="usuarios-container padding-20" *ngIf="parametro">
+  <div class="label mrg-btm-10">Direcciones Seleccionadas</div>
+  <dx-tag-box
+    placeholder="Seleccione los direcciones"
+    [dataSource]="direcciones"
+    valueExpr="id"
+    displayExpr="alias"
+    [(value)]="parametro.value"
+    [showSelectionControls]="true"
+    [searchEnabled]="true">
+  </dx-tag-box>
+
+  <button mat-raised-button class="w-100 mrg-top-15" color="accent" (click)="onSetParametroValue()">Grabar</button>
+</div>

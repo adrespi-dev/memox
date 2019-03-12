@@ -1,0 +1,90 @@
+<dx-popup class="popup-style-1" 
+  [(visible)]="showModal" 
+  height="auto"
+  title = "Cambiar Datos de mi usuario"
+  [closeOnOutsideClick] = "false"
+  width="550"
+  (onShowing)="onShown()">
+  <div class="h-100 w-100" *dxTemplate="let data of 'content'">
+    <div class="padding-25">
+      <ng-container *ngIf="noSePudieronObtenerDatos; else contentBlock;">
+        <div style="min-height: 290px;" fxLayout="row" fxLayoutAlign="center center">
+          <div class="empty-page">
+            <div class="radius-container">
+              <mat-icon>close</mat-icon>
+              <div class="message open-sans no-pdd">No se ha podido recuperar sus datos.</div>
+            </div>
+            <div class="mrg-top-10">
+              <button mat-raised-button color="primary" (click)="cargarDatos()">Reintentar</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #contentBlock>
+        <ng-container *ngIf="!isCallbackingData; else callbackingDataBlock;">
+          <form [formGroup]="form" (submit)="submitForm()" *ngIf="form">
+            <div class="w-100" fxLayout="row" fxLayoutAlign="space-between stretch">
+              <div fxLayout="row" fxLayoutAlign="center">
+                <div class="editable-avatar">
+                  <img class="pointer" (click)="fileUpload.click()" 
+                    userFoto [userName]="form.value.userName" *ngIf="!urlImagenCambiada">
+                  <img class="pointer" (click)="fileUpload.click()" 
+                    [src]="urlImagenCambiada" *ngIf="urlImagenCambiada">
+                </div>
+                <input #fileUpload type="file" (click)="fileUpload.value = null"
+                (change)="importFoto($event)" style="display:none"accept="image/*">
+              </div>
+              <div class="w-100">
+                <div class="w-100">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput placeholder="Nombres" formControlName="nombres">
+                    <mat-icon matSuffix
+                      [class.text-success]="this.form.get('nombres').valid">
+                      {{ (this.form.get('nombres').valid) ? 'check' : 'textsms' }}
+                    </mat-icon>
+                    <mat-error *ngIf="form.get('nombres').hasError('required')">Campo requerido</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="w-100 mrg-top-15">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Apellidos</mat-label>
+                    <input matInput placeholder="Apellidos" formControlName="apellidos">
+                    <mat-icon matSuffix
+                      [class.text-success]="this.form.get('apellidos').valid">
+                      {{ (this.form.get('apellidos').valid) ? 'check' : 'security' }}
+                    </mat-icon>
+                    <mat-error *ngIf="form.get('apellidos').hasError('required')">Campo requerido</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-100 text-right">
+              <button mat-raised-button color="accent" type="submit" [disabled]="isCallbacking">Cambiar Clave</button>
+            </div>
+
+            <div class="mrg-top-20 text-center" *ngIf="isCallbacking">
+              <dx-load-indicator  height="60" width="60"></dx-load-indicator>
+            </div>
+
+            <div class="error-panel" *ngIf="errorMessage">
+              <mat-icon>error</mat-icon>
+              <div class="error-message" [innerHTML]="errorMessage"></div>
+            </div>
+          </form>
+        </ng-container>
+      </ng-template>
+    </div>
+  </div>
+</dx-popup>
+
+<ng-template #callbackingDataBlock>
+  <div style="min-height: 208px;" fxLayout="row" fxLayoutAlign="center center">
+    <mat-progress-spinner
+      diameter="96"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+</ng-template>

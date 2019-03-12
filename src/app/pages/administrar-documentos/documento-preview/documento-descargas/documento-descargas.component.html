@@ -1,0 +1,47 @@
+<div class="h-100 w-100 relative">
+  <app-loader *ngIf="isCallbacking"></app-loader>
+  <div class="h-100 w-100 relative">
+    <ng-container *ngIf="descargas.length < 1">
+      <div class="empty-page">
+        <div class="radius-container">
+            <mat-icon>cloud_download</mat-icon>
+            <div class="message open-sans">
+              No se han realizado descargas.
+            </div>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="descargas.length > 0">
+      <perfect-scrollbar class="full-absolute">
+        <div class="padding-15">
+          <div class="circle-timeline">
+          </div>
+          <div class="descarga-container" *ngFor="let descarga of descargas">
+            <div class="circle">
+              <mat-icon>cloud_download</mat-icon>
+            </div>
+            <div class="user-avatar" fxLayout="column" fxLayoutAlign="start start">
+              <div class="w-100" fxLayout="row" fxLayoutAlign="start start">
+                <img userFoto [userName]="descarga.usuario">
+                <div>
+                  <div>
+                    <span class="nombre">{{ descarga.nombreCompleto }}</span> <span class="fecha">{{ descarga.fecha }}</span>
+                  </div>
+                  <div class="tipo">
+                    {{ descarga.tipo }}
+                  </div>
+                </div>
+              </div>
+              <div class="observacion mrg-top-10">
+                  {{ descarga.observacion }}
+              </div>
+            </div>
+          </div>
+          <div class="circle-timeline fin">
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </ng-container>
+  </div>
+</div>

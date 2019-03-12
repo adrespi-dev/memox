@@ -1,0 +1,142 @@
+<div id="plantilla-container" class="h-100 w-100" fxLayout="column" fxLayoutAlign="start stretch">
+  <!--div class="error-panel pdd-vertical-15 mrg-btm-10 mrg-horizon-10" *ngIf="errorMsg">
+    <mat-icon>error</mat-icon>
+    <div class="error-message" [innerHTML]="errorMsg">
+    </div>
+  </div-->
+  <div fxFlex="fxFill" class="h-100 w-100" fxLayout="row" fxLayoutAlign="start stretch">
+    <div class="h-100" fxFlex="70" fxLayout="column" fxLayoutAlign="start stretch">
+      <div>
+        <div class="error-panel pdd-vertical-15 mrg-btm-10 mrg-horizon-10" *ngIf="errorMsg">
+          <mat-icon>error</mat-icon>
+          <div class="error-message" [innerHTML]="errorMsg">
+          </div>
+        </div>
+      </div>
+      <div fxFlex="fxFill">
+        <div id="iframe-doc" class="h-100 pdd-btm-5">
+          <iframe [id]="'if-' + keyArchivo" class="h-100 w-100" [src]="safeUrlPlantilla" *ngIf="safeUrlPlantilla" (load)="onIframeLoad($event)"></iframe>
+        </div>
+      </div>
+    </div>
+    <div id="plantilla-parametros-container" class="h-100" fxFlex="30" fxLayout="column" fxLayoutAlign="start stretch">
+      <div class="w-100" fxLayout="row" fxLayoutAlign="start center">
+        <div class="w-100">
+          <input class="w-100 padding-10 open-sans font-size-16 editable-label mrg-top-10" [(ngModel)]="plantilla.nombre">
+          <mat-select style="padding: 0px 12px;"  class="w-100 mrg-vertical-5" placeholder="Dirección" [(ngModel)]="plantilla.direccionId">
+            <mat-option *ngFor="let direccion of direcciones" [value]="direccion.id">
+              {{ direccion.alias }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+      <div fxFlex="fxFill">
+        <div class="h-100 w-100 relative">
+          <ng-container *ngIf="documentParametros && documentParametros.length > 0; else noParametrosBlock;">
+              <perfect-scrollbar class="full-absolute">
+                <mat-accordion>
+                  <mat-expansion-panel [expanded]="selectedParametroId == documentParametro.key" *ngFor="let documentParametro of documentParametros">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <mat-icon color="warn" *ngIf="documentParametro.valid === false">error</mat-icon>
+                        {{documentParametro.nombre}}
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        {{ getTypeSelected(documentParametro.tipoId) }}
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="error-panel pdd-vertical-15 mrg-btm-10" *ngIf="documentParametro.valid === false">
+                      <mat-icon>error</mat-icon>
+                      <div class="error-message">
+                          {{ documentParametro.errorMsg }}
+                      </div>
+                    </div>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Nombre del parámetro</mat-label>
+                      <input (change)="validarParametro(documentParametro)" matInput [(ngModel)] = "documentParametro.nombre">
+                      <mat-icon matSuffix>textsms</mat-icon>
+                    </mat-form-field>
+                
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Tipo del parámetro</mat-label>
+                      <mat-select (change)="validarParametro(documentParametro)" [(ngModel)] = "documentParametro.tipoId">
+                        <mat-option *ngFor="let tipo of tiposParametros" [value]="tipo.id">
+                          {{ tipo.nombre }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-icon matSuffix>extension</mat-icon>
+                    </mat-form-field>
+
+                    <ng-container [ngSwitch]="documentParametro.tipoId">
+                      <ng-container *ngSwitchCase="0">
+                        <app-parametros-opcionales-tipo-serie [parametro]="documentParametro">
+                        </app-parametros-opcionales-tipo-serie>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="2">
+                        <app-parametros-opcionales-tipo-fecha [parametro]="documentParametro">
+                        </app-parametros-opcionales-tipo-fecha>
+                      </ng-container>
+                    </ng-container>
+                    <div>
+                      <button mat-raised-button color="warn" (click)="removerParametro(documentParametro);">Eliminar</button>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </perfect-scrollbar>
+          </ng-container>
+        </div>
+      </div>
+      <div class="padding-10">
+        <button (click)="onSavePlantilla()" class="float-right" mat-raised-button 
+        [disabled]="isButtonGuardarDisabled()"
+        color="accent">Guardar Plantilla</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noParametrosBlock>
+  <div class="empty-page">
+    <div class="radius-container padding-45">
+      <mat-icon>inbox</mat-icon>
+      <!--div class="message">No ha creado ninguna variable en esta plantilla</div-->
+    </div>
+  </div>
+</ng-template>
+
+<dx-load-panel
+  #loadPanel
+  shadingColor="rgba(0,0,0,0.4)"
+  [position]="{ of: '#iframe-doc' }"
+  [(visible)]="estaCargandoIframe"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="false"
+  [closeOnOutsideClick]="false">
+</dx-load-panel>
+
+<dx-load-panel
+  #loadPlantillaPanel
+  shadingColor="rgba(0,0,0,0.4)"
+  [position]="{ of: '#plantilla-parametros-container' }"
+  [(visible)]="isCallbackingPlantilla"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="false"
+  [closeOnOutsideClick]="false">
+</dx-load-panel>
+
+<dx-load-panel
+  #mainLoadPanel
+  shadingColor="rgba(0,0,0,0.6)"
+  [position]="{ of: '#plantilla-container' }"
+  [(visible)]="isMainCallbacking"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  message="Guardando Plantilla..."
+  [closeOnOutsideClick]="false">
+</dx-load-panel>

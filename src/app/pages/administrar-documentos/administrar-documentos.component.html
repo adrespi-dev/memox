@@ -1,0 +1,192 @@
+<div class="h-100 w-100"  fxLayout="row" fxLayoutAlign="start stretch">
+  <div fxFill>
+    <div class="h-100 w-100 relative">
+        <div class="h-100 w-100" fxLayout="column" fxLayoutAlign="start stretch">
+          <div>
+          </div>
+          <div fxFlex="fxFill">
+            <div class="h-100 w-100">
+              <mat-tab-group class="h-100 w-100 tabs-primary tabs-style-1"
+              [(selectedIndex)]="selectedTab">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                      <div fxLayout="row" fxLayoutAlign="start center">
+                          <mat-icon>search</mat-icon>
+                          Buscador
+                      </div>
+                    </ng-template>
+                    <div class="h-100 w-100" fxLayout="row" fxLayoutAlign="start stretch">
+                      <div class="documentos-list" fxFlex="fxFill">
+                        <div class="h-100" fxLayout="column" fxLayoutAlign="start stretch">
+                          <div class="w-100 padding-20 header" fxLayout="row" fxLayoutAlign="start center">
+                            <button class="mrg-right-15" mat-icon-button color="primary" (click)="showFilters = !showFilters">
+                              <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <div fxFlex="fxFill">
+                              <div class="omnisearch-documentos" fxLayout="row" fxLayoutAlign="start center">
+                                <div class="filter-button">
+                                </div>
+                                <div fxFlex="fxFill">
+                                  <input [(ngModel)]="query.searchTerm" placeholder="Buscar entre los documentos..."/>
+                                </div>
+                                <div class="btn-search pointer" (click)="recargarDocumentos()" fxLayout="row" fxLayoutAlign="center center">
+                                  <div class="mrg-right-5">
+                                    Buscar
+                                  </div>
+                                  <mat-icon>search</mat-icon>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div fxFlex="fxFill">
+                            <div class="h-100 w-100">
+                              <mat-drawer-container class="h-100 w-100">
+                                <mat-drawer mode="side" [opened]="showFilters">
+                                  <div class="side-filters">
+                                    <ng-container *ngTemplateOutlet="filters">
+                                    </ng-container>
+                                  </div>
+                                </mat-drawer>
+                                <mat-drawer-content>
+                                  <div class="h-100 w-100 relative">
+                                    <perfect-scrollbar class="full-absolute">
+                                      <app-documentos-list [isCallbacking]="isCallbacking" [documentos]="documentos" 
+                                        [documentoSeleccionado]="documentoSeleccionado"
+                                        (clickDocumento)="onDocumentClick($event)"
+                                      ></app-documentos-list>
+                                    </perfect-scrollbar>
+                                  </div>
+                              </mat-drawer-content>
+                              </mat-drawer-container>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </mat-tab>
+                <mat-tab *ngFor="let tab of tabs">
+                  <ng-template mat-tab-label>
+                      <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div>
+                          {{ tab.codigo }}
+                        </div>
+                        <button class="mrg-left-10" mat-icon-button (click)="cerrarTab(tab)">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                  </ng-template>
+                  <div class="h-100 w-100">
+                    <app-documento-preview [documentoId]="tab.id"></app-documento-preview>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<ng-template #filters>
+  <div class="h-100 w-100 relative">
+    <perfect-scrollbar class="full-absolute pdd-right-15">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Filtros</h2>
+        <button mat-button color="warn" (click)="onLimpiarFiltros()">Limpiar</button>
+      </div>
+      <div class="filter">
+        <div class="title">Serie</div>
+        <dx-select-box [dataSource]="seriesDS"
+          placeholder="Por serie"
+          valueExpr="id"
+          displayExpr="plantilla"
+          [(value)]="query.serieId"
+          [showClearButton]="true">
+        </dx-select-box>
+      </div>
+      <div class="filter">
+        <div class="title">Dirección</div>
+        <dx-select-box [dataSource]="direccionesDS"
+          placeholder="Por dirección"
+          valueExpr="id"
+          displayExpr="alias"
+          [(value)]="query.direccionId"
+          [showClearButton]="true">
+        </dx-select-box>
+      </div>
+      <div class="filter">
+        <div class="title">Destinatarios</div>
+        <dx-tag-box
+          placeholder="Destinatarios"
+          [dataSource]="direccionesTodasDS"
+          valueExpr="id"
+          displayExpr="alias"
+          [(value)]="query.direccionesDestinos"
+          [showSelectionControls]="true"
+          [searchEnabled]="true">
+        </dx-tag-box>
+      </div>
+      <div class="filter">
+        <div class="title">Creado por</div>
+        <dx-select-box [dataSource]="usuariosDS"
+          placeholder="Usuario"
+          valueExpr="id"
+          displayExpr="userName"
+          [(value)]="query.usuarioCreadorId">
+          <div *dxTemplate="let user of 'item'">
+              <div class="user-avatar" fxLayout="row" fxLayoutAlign="start center">
+                <img userFoto [userName]="user?.userName">
+                <div>
+                  {{ user.userName }}
+                </div>
+              </div>
+          </div>
+        </dx-select-box>
+      </div>
+      <div class="filter">
+        <div class="title">Estado del documento</div>
+        <dx-select-box [dataSource]="estadosDS"
+          placeholder="Estado"
+          valueExpr="id"
+          displayExpr="nombre"
+          [(value)]="query.estadoId">
+        </dx-select-box>
+      </div>
+      <div class="filter" *ngIf="query.estadoId > 0 && query.estadoId != 2">
+        <div class="title">Pendiente en</div>
+        <dx-select-box [dataSource]="usuariosDS"
+          placeholder="Usuario"
+          valueExpr="id"
+          displayExpr="userName"
+          [(value)]="query.usuarioPendienteId">
+          <div *dxTemplate="let user of 'item'">
+              <div class="user-avatar" fxLayout="row" fxLayoutAlign="start center">
+                <img userFoto [userName]="user?.userName">
+                <div>
+                  {{ user.userName }}
+                </div>
+              </div>
+          </div>
+        </dx-select-box>
+      </div>
+      <div class="filter">
+        <div class="title">Desde el</div>
+        <dx-date-box
+            [(value)]="query.fechaInicio"
+            dateSerializationFormat="yyyy-MM-dd"
+            type="date">
+        </dx-date-box>
+      </div>
+      <div class="filter">
+        <div class="title">Hasta el</div>
+        <dx-date-box
+            [(value)]="query.fechaFin"
+            dateSerializationFormat="yyyy-MM-dd"
+            type="date">
+        </dx-date-box>
+      </div>
+      <div class="resultados">
+        <strong>{{ documentos.length }}</strong> encontrados.
+      </div>
+    </perfect-scrollbar>
+  </div>
+</ng-template>

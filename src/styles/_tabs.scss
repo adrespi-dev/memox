@@ -1,0 +1,29 @@
+.tabs-style-1 {
+    .mat-tab-body-wrapper {
+        height: 100%;
+    }
+
+    .mat-tab-label {
+        min-width: unset !important;
+    }
+}
+
+.tabs-primary {
+    border: 1px solid #c2c2c2;
+    .mat-tab-labels {
+        background: #1967d2;
+    }   
+    .mat-tab-label {
+        opacity: 1 !important;
+        color: white !important;
+    }
+
+    .mat-ink-bar {
+        background-color: #edff47 !important;
+        height: 3px !important;
+    }
+
+    .mat-tab-nav-bar, .mat-tab-header {
+        border: 0px !important;
+    }
+}

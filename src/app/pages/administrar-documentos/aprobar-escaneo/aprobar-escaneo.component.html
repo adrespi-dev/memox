@@ -1,0 +1,59 @@
+<div class="h-100 w-100 relative">
+  <app-loader *ngIf="isCallbaking"></app-loader>
+  <div class="h-100 w-100">
+    <ng-container *ngIf="!showDoc">
+      <div class="h-100 w-100" fxLayout="row" fxLayoutAlign="start stretch">
+        <div fxFlex="fxFill">
+          <div class="h-100 w-100">
+            <iframe class="w-100" *ngIf="pdfSinFirmarUrl" [src]="pdfSinFirmarUrl"></iframe>
+          </div>
+        </div>
+        <div fxFlex="fxFill">
+          <iframe class="w-100" *ngIf="pdfFirmadoUrl" [src]="pdfFirmadoUrl"></iframe>
+        </div>
+        <button class="absolute-button" mat-fab color="primary" (click)="onClickGestion(1)">
+            <mat-icon>check</mat-icon>
+        </button>
+        <button class="absolute-button rechazar" mat-fab color="warn" (click)="onClickGestion(2)">
+            <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="showDoc === true">
+      <div class="h-100 w-100 tabs-primary tabs-style-1">
+        <app-documento-preview [documentoId]="documentoId"></app-documento-preview>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<dx-popup 
+  class="popup-style-1"
+  [(visible)]="showPopup" 
+  (onHidden)="onHidden()"
+  height="auto" 
+  width="500" 
+  [title]="tipoGestion === 1 ? 'Aprobar escaneo' : 'Rechazar escaneo'">
+  <div class="padding-25 relative" *dxTemplate="let data of 'content'">
+    <app-loader *ngIf="isCallbakingPopup"></app-loader>
+    <dx-validation-group #valGrp>
+      <dx-text-area
+        [height]="90"
+        placeholder="Agregar una observación"
+        [(value)]="observacion">
+        <dx-validator>
+          <dxi-validation-rule 
+            type="required"
+            message="Porfavor ingrese una observación">
+          </dxi-validation-rule>
+        </dx-validator>
+      </dx-text-area>
+      <div class="mrg-top-30" fxLayout="row" fxLayoutAlign="end center" (click)="gestionar(valGrp)">
+        <button mat-raised-button [color]="tipoGestion === 1 ? 'accent' : 'warn'">
+          {{tipoGestion === 1 ? 'Aprobar' : 'Rechazar'}}
+        </button>
+      </div>
+    </dx-validation-group>
+  </div>
+</dx-popup>

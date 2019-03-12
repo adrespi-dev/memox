@@ -1,0 +1,121 @@
+<div class="h-100 w-100" fxLayout="row" fxLayoutAlign="start stretch" id="container-documento">
+    <ng-container *ngIf="!documentoEstaGrabado; else grabadoBlock;">
+        <div id="iframe-doc" class="h-100 pdd-btm-5" *ngIf="showIFrame" fxFlex="fxFill">
+            <iframe id="if-documento" (load)="onIframeLoaded()" class="h-100 w-100" [src]="safeUrlDocumento" *ngIf="safeUrlDocumento"></iframe>
+        </div>
+        <div fxFlex="25">
+            <ng-container *ngTemplateOutlet="rightPanel"></ng-container>
+        </div>
+    </ng-container>
+</div>
+
+<dx-load-panel
+  #mainLoadPanel
+  shadingColor="rgba(0,0,0,0.6)"
+  [position]="{ of: '#container-documento' }"
+  [(visible)]="isCallbacking"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  message="Guardando Plantilla..."
+  [closeOnOutsideClick]="false">
+</dx-load-panel>
+
+<div class="fixed-element" [style.top.px]="topFixed" [style.left.px]="leftFixed">
+    <div id="placeholder" class="h-100 w-100"></div> 
+</div>
+
+<button class="save-button fixed-button" mat-fab (click)="onSaveDocumento()">
+    <mat-icon >save</mat-icon>
+</button>
+
+<dx-popover class="popover-parametro" target="#placeholder" [closeOnOutsideClick]="false"
+[(visible)]="isPopoverVisible" position="top" *ngIf="isPopoverVisible">
+    <div *dxTemplate="let data of 'content'">
+        <ng-container *ngIf="selectedParametro">
+            <ng-container [ngSwitch]="selectedParametro.tipoId">
+                <ng-container *ngSwitchCase="0">
+                    <div class="info-panel" style="width: 250px;">
+                        <mat-icon>info</mat-icon>
+                        <div class="message">
+                            Porfavor, tenga en cuenta que el número de memorandum actual es tentativo y será actualizado una vez se cree el memorandum.
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                    <app-editor-parametro-fecha (setParametroValue) = "onSetParametroValue($event)"
+                    [parametro]="selectedParametro"></app-editor-parametro-fecha>
+                </ng-container>
+                <ng-container *ngSwitchCase="3">
+                    <app-editor-parametro-usuarios (setParametroValue) = "onSetParametroValue($event)"
+                    [parametro]="selectedParametro"></app-editor-parametro-usuarios>
+                </ng-container>
+                <ng-container *ngSwitchCase="4">
+                    <app-editor-parametro-direcciones (setParametroValue) = "onSetParametroValue($event)"
+                    [parametro]="selectedParametro"></app-editor-parametro-direcciones>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    Piloso Oso
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</dx-popover>
+
+
+<ng-template #grabadoBlock>
+    <div class="empty-page success">
+        <div class="radius-container">
+            <mat-icon>check_circle</mat-icon>
+            <div class="message open-sans">
+                Documento grabado correctamente.
+            </div>
+            <button class="mrg-top-15" mat-raised-button color="accent" routerLink="/pages/documentos">Ir a mis documentos</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #rightPanel>
+    <mat-tab-group class="h-100 w-100 tabs-style-1"
+    [(selectedIndex)]="selectedTab">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                    <mat-icon>subdirectory_arrow_right</mat-icon>
+                </div>
+            </ng-template>
+            <app-documentos-relacionados [documento]="documento"></app-documentos-relacionados>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                    <mat-icon>speaker_notes</mat-icon>
+                </div>
+            </ng-template>
+            <app-observaciones-list [documento]="documento" *ngIf="documento"></app-observaciones-list>
+        </mat-tab>
+        <mat-tab class="h-100">
+            <ng-template mat-tab-label>
+                <div fxLayout="column" fxLayoutAlign="start center">
+                    <mat-icon>error</mat-icon>
+                </div>
+            </ng-template>
+            <div class="h-100">
+                <div class="h-100 error-panel no-mrg" *ngIf="errorMsg">
+                    <div class="error-message" [innerHTML]="errorMsg">
+                    </div>
+                </div>
+                <div class="h-100 w-100" *ngIf="!errorMsg">
+                    <div class="empty-page">
+                        <div class="radius-container no-pdd">
+                            <mat-icon>tag_faces</mat-icon>
+                            <div class="message open-sans">
+                                No tiene errores en el documento.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</ng-template>

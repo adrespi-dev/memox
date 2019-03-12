@@ -1,0 +1,44 @@
+.panel-header {
+    background: #3589fd;
+    height: 64px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 99;
+}
+
+.panel-body {
+    background: white;
+}
+
+.upload-panel {
+
+    &:hover {
+        border: 4px #3589fd;
+        border-style: dashed;
+        background: #e8e8e8;
+    }
+}
+
+.subir-panel {
+    color: #1967d2;
+
+    .mat-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+    }
+
+    .msg {
+        margin-top: 15px;
+        font-size: 16px;
+    }
+}
+
+.archivo-subido-panel {
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+    border: 1px solid #c5c5c5;
+}

@@ -1,0 +1,74 @@
+@import '~@angular/material/theming';
+
+.image-user {
+    background-image: url('/assets/images/avatars/profile.jpg');
+    background-size: cover;
+    margin: 0px 15px;
+  }
+
+  .card-actions {
+    padding: 0 24px;
+  }
+
+  .radius-container {
+    
+  }
+
+  img {
+    max-height: 250px;
+    margin: 0 auto;
+  }
+
+  .img-container {
+    text-align: center;
+    overflow: hidden;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+    .image-bg {
+      height: 175px;
+      background-size: cover;
+      // border-bottom: 1px solid #656565;
+      // border-top: 1px solid #656565;
+      background-position-x: -1px;
+      background-position-y: -1px;
+      transform: scale(1.02);
+    }
+    // padding: 15px;
+  }
+
+  .mat-card {
+    padding: 24px 0px;
+    @include mat-elevation-transition;
+    @include mat-elevation(3);
+
+    &:hover {
+      @include mat-elevation(8);
+    }
+
+    .mat-card-header, .mat-card-content {
+      padding: 0px 24px;
+    }
+  }
+
+  .mat-card-title {
+    font-size: 14px;
+    display: block;
+    //margin-bottom: 16px;
+    margin-bottom: 6px;
+  }
+
+  .mat-card-subtitle {
+    display: block;
+    margin-bottom: 0px;
+    margin-top: -8px;
+  }
+
+  .direccion-label {
+    padding-right: 5px;
+    color: #737171;
+  }
+
+  .card-overlay {
+    background: #ffffff70;
+    z-index: 9;
+  }

@@ -1,0 +1,35 @@
+.main-drawer {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    
+    .side-menu-wrapper {    
+        height: 100%;
+        width: 100%;
+        background: rgb(252, 252, 252);
+
+        .mat-nav-list {
+            .mat-list-item {
+                &:hover {
+                    background: none;
+                }
+            }
+            .mat-list-item-content {
+                padding: 0px;
+                padding-right: 35px;
+                a {
+                    padding-left: 15px;
+                    color: #656565;
+                    -webkit-font-smoothing: antialiased;    
+                    border-top-right-radius: 40px;
+                    border-bottom-right-radius: 40px;
+
+                    &.active {    
+                        background-color: #e8f0fe;
+                        color: #4285f4;
+                        color: #1967d2;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}

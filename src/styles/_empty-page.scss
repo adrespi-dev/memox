@@ -1,0 +1,32 @@
+.empty-page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .radius-container {
+        border-radius: 50%;
+        background: #f5f5f5;
+        padding: 70px;
+        max-width: 70%;    
+        color: #cac5c5;
+        color: #757575;
+        text-align: center;
+
+        .mat-icon {
+            height: 128px;
+            width: 128px;
+            font-size: 128px;
+            color: #b3b3b3;
+        }
+    }
+
+    .message {
+        padding-top: 15px;
+    }
+}

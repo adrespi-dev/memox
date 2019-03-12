@@ -1,0 +1,12 @@
+.param-List {
+    list-style-type: none !important;
+    .param {
+        color: #757575;
+        font-weight: 500;
+        > ul {
+            color: #f44336;
+            font-weight: 400;
+            list-style-type: initial;
+        }
+    }
+}

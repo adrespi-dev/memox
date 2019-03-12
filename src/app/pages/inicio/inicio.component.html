@@ -1,0 +1,19 @@
+<div class="h-100 w-100 center-content relative">
+  <app-loader *ngIf=""></app-loader>
+  <div class="constrained padding-15">
+    <div class="mrg-btm-35 inicio-header">
+      <img class="avatar mrg-btm-15" userFoto [userName]="user?.userName">
+      <div class="font-size-22 open-sans">Bienvenido, {{  user?.nombreCompleto || 'cargando...' }}</div>
+    </div>
+    <div class="menu-grid">
+      <ng-container *ngFor="let menuItem of menu">
+        <a [routerLink]="'/pages/' + menuItem.link">
+          <div class="menu-item">
+              <mat-icon class="menu-item-icon">{{ menuItem.icon }}</mat-icon>
+              <div class="menu-item-title open-sans">{{ menuItem.text }}</div>
+          </div>
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</div>

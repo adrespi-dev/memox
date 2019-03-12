@@ -1,0 +1,42 @@
+.omnisearch {
+    height: 50px;
+    width: 100%;
+    background: white;
+    cursor: pointer;
+    padding: 0 15px;
+    @include mat-elevation(6);
+
+    &.default {
+        
+    }
+    
+    &.primary {
+        // background: #3a028c;
+        background: white;
+
+        .mat-icon {
+            color: #1967d2;
+        }
+
+        input {
+        }
+    }
+
+    input {
+        border: none;
+        padding: 0px;
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+        font-size: 18px;
+        outline: none;
+        background: transparent;
+    }
+}
+
+.omnisearch-menu-popup {
+    height: 300px;
+    position: fixed;
+    z-index: 9;
+    background: white;
+}

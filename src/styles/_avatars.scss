@@ -1,0 +1,32 @@
+.avatar {
+    height: 96px;
+    width: 96px;
+    min-width: 96px;
+    border-radius: 50%;
+    line-height: 96px;
+}
+
+.user-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        height: 36px;
+        width: 36px;
+        min-width: 36px;
+        border-radius: 50%;
+        line-height: 36px;
+        margin: 0 10px;
+    }
+
+    .title {
+        font-size: 16px;
+        line-height: 16px;
+    }
+    .subtitle {
+        font-size: 14px;
+        line-height: 14px;
+        color: #b1b1b1;
+    }
+}

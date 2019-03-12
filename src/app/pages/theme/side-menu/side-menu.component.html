@@ -1,0 +1,135 @@
+<div class="side-menu-wrapper">
+  <div class="full-absolute">
+    <perfect-scrollbar style="max-height: 100%;">
+      <mat-nav-list id="nav-list" class="h-100" [disableRipple]="true">
+        <dx-load-panel 
+          [position]="{ of: '#nav-list' }"
+          [closeOnOutsideClick]="false"
+          [(visible)]="isCallbacking">
+        </dx-load-panel>
+        <div class="error-panel" *ngIf="errorMsg">
+          <mat-icon>error</mat-icon>
+          <div class="error-message" [innerHTML]="errorMsg"></div>
+        </div>
+        <div mat-subheader class="pdd-top-25" fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Menu Principal</span>
+          <div>
+            <button mat-button class="mrg-right-10" color="primary"  (click)="onSaveMenu()" *ngIf="isMenuEditing">Grabar</button>
+            <button mat-icon-button (click)="onBeginEdit()" *ngIf="showEditMenuBtn">
+                <mat-icon>{{ (isMenuEditing) ? 'close' : 'edit' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+        <ng-container *ngIf="menu">
+          <div [dragula]="'menu-bag'" [dragulaModel]="menu">
+            <ng-container *ngFor="let menuItem of menu">
+              <ng-container [ngSwitch]="menuItem.type">
+                <ng-container *ngSwitchCase="'subHeader'">
+                  <div mat-subheader *ngIf="!isMenuEditing">
+                    {{ menuItem.text }}
+                  </div>
+                  <div class="pdd-horizon-30" fxLayout="row" fxLayoutAlign="start center" *ngIf="isMenuEditing">
+                    <div fxFlex="fxFill" fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="handle pointer">open_with</mat-icon>
+                      <mat-form-field style="width: 140px;">
+                        <mat-select placeholder="Tipo" [(ngModel)]="menuItem.type">
+                          <mat-option value="link"> Menu </mat-option>
+                          <mat-option value="subHeader"> Subtítulo </mat-option>
+                          <mat-option value="divider">   Divisor </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field class="pdd-left-10" fxFlex="fxFill">
+                        <input matInput placeholder="Título" [(ngModel)]="menuItem.text">
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <button mat-button class="mrg-right-10" color="warn" (click)="onEliminarMenu(menuItem)">Eliminar</button>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'divider'">
+                  <mat-divider class="mrg-vertical-10" *ngIf="!isMenuEditing"></mat-divider>
+                  <div class="pdd-horizon-30" fxLayout="row" fxLayoutAlign="start center" *ngIf="isMenuEditing">
+                    <div fxFlex="fxFill" fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="handle pointer">open_with</mat-icon>
+                      <mat-form-field style="width: 140px;">
+                        <mat-select placeholder="Tipo" [(ngModel)]="menuItem.type">
+                          <mat-option value="link"> Menu </mat-option>
+                          <mat-option value="subHeader"> Subtítulo </mat-option>
+                          <mat-option value="divider">   Divisor </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <button mat-button class="mrg-right-10" color="warn" (click)="onEliminarMenu(menuItem)">Eliminar</button>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                <mat-list-item *ngIf="!isMenuEditing">
+                  <a class="w-100 h-100"
+                    [routerLink]="menuItem.link" routerLinkActive="active" fxLayout="row" fxLayoutAlign="start center">
+                    <button mat-icon-button>
+                      <mat-icon>{{ menuItem.icon }}</mat-icon>
+                    </button>
+                    {{ menuItem.text }}
+                  </a>
+                </mat-list-item>
+                <div class="pdd-horizon-30" fxLayout="row" fxLayoutAlign="start center" *ngIf="isMenuEditing">
+                  <div fxFlex="fxFill" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="handle pointer">open_with</mat-icon>
+                    <mat-form-field style="width: 140px;">
+                      <mat-select placeholder="Tipo" [(ngModel)]="menuItem.type">
+                        <mat-option value="link"> Menu </mat-option>
+                        <mat-option value="subHeader"> Subtítulo </mat-option>
+                        <mat-option value="divider">   Divisor </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <button mat-icon-button class="mrg-left-10"
+                            (click)="onBeginIconChooser($event, menuItem)">
+                      <mat-icon>{{ menuItem.icon }}</mat-icon>
+                    </button>
+                    <mat-form-field class="pdd-left-10" fxFlex="fxFill">
+                      <input matInput placeholder="Título" [(ngModel)]="menuItem.text">
+                    </mat-form-field>
+                    <mat-form-field class="pdd-left-10" fxFlex="fxFill">
+                      <input matInput placeholder="Ruta" [(ngModel)]="menuItem.link">
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <button mat-button class="mrg-right-10" color="warn" (click)="onEliminarMenu(menuItem)">Eliminar</button>
+                  </div>
+                </div>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="pdd-horizon-30" *ngIf="isMenuEditing">
+            <div class="button-fill">
+              <button mat-button class="mrg-right-10" (click)="onAgregarMenu()">
+                <mat-icon>add</mat-icon>
+                Agregar Menú
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </mat-nav-list>
+      <div class="mrg-btm-35"></div>
+    </perfect-scrollbar>
+  </div>
+</div>
+
+<dx-popover [target]="targetPopoverIconChooser" [(visible)]="isPopoverVisible" position="right">
+  <div *dxTemplate="let data of 'content'">
+    <app-omnisearch (search)="onSearchIcon($event)" placeholder="Buscar icono..."></app-omnisearch>
+    <dx-scroll-view class="icon-chooser mrg-top-10">
+      <div  fxLayout="row wrap" fxLayoutAlign="start center">
+        <div fxFlex="20" class="padding-10 text-center" *ngFor="let icon of matIconsFiltered">
+          <button mat-icon-button (click)="menuItemSelected.icon = icon; isPopoverVisible = false;">
+            <mat-icon class="icon-36">{{ icon }}</mat-icon>
+          </button>
+        </div>
+      </div>
+    </dx-scroll-view>
+  </div>
+</dx-popover>

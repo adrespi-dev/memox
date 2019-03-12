@@ -1,0 +1,18 @@
+<div class="padding-20">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Fecha</mat-label>
+    <input matInput placeholder="Fecha" [matDatepicker]="picker" autocomplete="off" [(ngModel)]="parametro.value">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-hint>Resultado: {{ parametro.value | date: parametro._formatoFecha}}</mat-hint>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  
+  <mat-form-field class="mrg-top-15 w-100" appearance="outline">
+    <mat-label>Formato de fecha</mat-label>
+    <input matInput placeholder="Formato de fecha" autocomplete="off" [(ngModel)]="parametro._formatoFecha">
+    <mat-icon matSuffix>text_format</mat-icon>
+  </mat-form-field>
+
+  <button mat-raised-button class="w-100" color="accent" (click)="onSetParametroValue()" type="button">Grabar</button>
+
+</div>

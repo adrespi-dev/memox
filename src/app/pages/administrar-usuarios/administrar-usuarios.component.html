@@ -1,0 +1,201 @@
+<div class="h-100 w-100" fxLayout="column" fxLayoutAlign="space-between">
+  <div class="page-header padding-25">
+      <div class="h-100" fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="mrg-right-15">face</mat-icon>
+            <h3 class="title">Usuarios</h3>
+          </div>
+          <div class="search-box mat-elevation-z4">
+            <app-omnisearch appareance="primary" placeholder="Buscar Usuarios..." nameStorage="Usuarios" (search)="search($event)"></app-omnisearch>
+          </div>
+      </div>
+      <button class="add-button" mat-fab (click)="onAddButtonClick()">
+        <mat-icon [class.rotated-150] = "formOpened">person_add</mat-icon>
+      </button>
+  </div>
+  <div fxFlex="fxFill">
+    <div class="page-drawer h-100">
+      <div style="height: calc(100vh - 184px);" fxLayout="row" fxLayoutAlign="space-around start">
+        <div class="padding-15 h-100" style="width: 400px">
+            <mat-card class="no-pdd">
+              <mat-card-header class="pdd-horizon-25 pdd-top-25">
+                <div mat-card-avatar class="image-user"></div>
+                <mat-card-title>admin</mat-card-title>
+                <mat-card-subtitle>Administrador</mat-card-subtitle>
+              </mat-card-header>
+              <mat-divider></mat-divider>
+              <mat-card-content>
+                <mat-nav-list class="pdd-top-15">
+                  <mat-list-item  [class.selected] = "selectedDireccionId === 0" (click)="recargarUsuariosPorDireccion(0)">
+                    <a class="nav-list-item"  style="font-weight: 500;">
+                      Todas las direcciones
+                    </a>
+                    <!--mat-divider></mat-divider-->
+                  </mat-list-item>
+                  <mat-list-item [class.selected] = "selectedDireccionId === direccion.id" (click)="recargarUsuariosPorDireccion(direccion.id)" *ngFor="let direccion of direccionesDS">
+                    <a class="nav-list-item" >
+                      {{ direccion.alias }}
+                    </a>
+                    <!--mat-divider></mat-divider-->
+                  </mat-list-item>
+                </mat-nav-list>
+              </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="padding-15 h-100" fxFlex="fxFill">
+          <mat-card class="h-100 w-100 no-pdd">
+            <dx-data-grid datagridAnimation
+              class="cascade-grid h-100 w-100"
+              (onRowClick)="onRowClick($event)"
+              [(dataSource)]="dataSource"
+              [hoverStateEnabled]="true">
+              <dxo-header-filter visible="true"></dxo-header-filter>
+              <dxo-scrolling mode="infinite"></dxo-scrolling>
+              <dxo-selection mode="single"></dxo-selection>
+              <dxi-column dataField="direccion" caption="Dirección"></dxi-column>
+              <dxi-column dataField="perfil" caption="Perfil"></dxi-column>
+              <dxi-column dataField="userName" caption="Usuario"></dxi-column>
+              <dxi-column dataField="nombres" caption="Nombres"></dxi-column>
+              <dxi-column dataField="apellidos" caption="Apellidos"></dxi-column>
+              <dxi-column dataField="tituloFormal" caption="Titulo"></dxi-column>
+            </dx-data-grid>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dx-popup class="popup-style-1" [(visible)]="formOpened" height="80%" width="400" [showTitle]="false">
+  <div class="h-100 w-100" *dxTemplate="let data of 'content'">
+    <ng-container *ngTemplateOutlet="formTemplate"></ng-container>
+  </div>
+</dx-popup>
+
+<ng-template #formTemplate>
+  <form class="form-data h-100" [formGroup]="form" (submit)="submit()" *ngIf="form && formOpened">
+    <div class="h-100 w-100" fxLayout="column" fxLayoutAlign="start stretch">
+      <div class="bg-primary" style="height: 200px;" fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start stretch">
+        <div class="form-header text-white padding-25" fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            <h1 class="title text-white" *ngIf="isInserting">Nuevo Usuario</h1>
+            <h1 class="title text-white" *ngIf="!isInserting">Editar Usuario</h1>
+          </div>
+          <div>
+            <button class="text-white" type="button" (click)="formOpened = false" mat-icon-button>
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div fxFlex="fxFill" fxLayout="row" fxLayoutAlign="center center">
+          <img class="avatar" userFoto [userName]="form.value.userName">
+        </div>
+      </div>
+      <div fxFlex="fxFill">
+        <div class="h-100 w-100 relative" >
+          <dx-scroll-view class="h-100" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0;">
+            <div class="form-body" >
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre de usuario</mat-label>
+                <input matInput placeholder="Nombre de usuario" formControlName="userName">
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('userName').valid">
+                  {{ (this.form.get('userName').valid) ? 'check' : 'face' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('userName').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Nombres</mat-label>
+                <input matInput placeholder="Nombres" formControlName="nombres">
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('nombres').valid">
+                  {{ (this.form.get('nombres').valid) ? 'check' : 'textsms' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('nombres').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Apellidos</mat-label>
+                <input matInput placeholder="Apellidos" formControlName="apellidos">
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('apellidos').valid">
+                  {{ (this.form.get('apellidos').valid) ? 'check' : 'textsms' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('apellidos').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Titulo</mat-label>
+                <input matInput placeholder="Titulo" formControlName="tituloFormal">
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('tituloFormal').valid">
+                  {{ (this.form.get('tituloFormal').valid) ? 'check' : 'textsms' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('tituloFormal').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Correo</mat-label>
+                <input type="email" matInput placeholder="Correo" formControlName="correo">
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('correo').valid">
+                  {{ (this.form.get('correo').valid) ? 'check' : 'textsms' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('correo').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Perfil</mat-label>
+                <mat-select placeholder="Perfil" formControlName="perfilId">
+                  <mat-option [value]="perfil.id" *ngFor="let perfil of perfilesDS">
+                    {{perfil.nombre}}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('perfilId').valid">
+                  {{ (this.form.get('perfilId').valid) ? 'check' : 'textsms' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('perfilId').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Dirección</mat-label>
+                <mat-select placeholder="Dirección" formControlName="direccionId">
+                  <mat-option [value]="direccion.id" *ngFor="let direccion of direccionesDS">
+                    {{direccion.alias}}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix
+                  [class.text-success]="this.form.get('direccionId').valid">
+                  {{ (this.form.get('direccionId').valid) ? 'check' : 'textsms' }}
+                </mat-icon>
+                <mat-error *ngIf="form.get('direccionId').hasError('required')">Campo requerido</mat-error>
+              </mat-form-field>
+              <div class="error-panel" *ngIf="errorMsg">
+                <mat-icon>error</mat-icon>
+                <div class="error-message" [innerHTML]="errorMsg"></div>
+              </div>
+            </div>
+          </dx-scroll-view>
+        </div>
+      </div>
+      <div fxFlex="noshrink">
+        <div class="padding-10" fxLayout="row" fxLayoutAlign="end center">
+          <button class="btn-spinner" mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving || deleting">
+            <mat-progress-spinner *ngIf="saving" color="accent" diameter="24" mode="indeterminate">
+            </mat-progress-spinner>
+            Guardar
+          </button>
+
+          <button class="btn-spinner mrg-left-10" (click)="delete()"
+            mat-raised-button color="warn" type="button" *ngIf="!isInserting" [disabled]="saving || deleting">
+            <mat-progress-spinner *ngIf="deleting" color="accent" diameter="24" mode="indeterminate">
+            </mat-progress-spinner>
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

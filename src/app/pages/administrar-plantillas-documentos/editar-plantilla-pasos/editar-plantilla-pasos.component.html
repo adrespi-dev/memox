@@ -1,0 +1,69 @@
+<dx-popup class="popup-style-1"
+  [(visible)]="showModal" 
+  (onShown)="recargarPasos()"
+  (onHidden)="showModalChange.emit(false)"
+  height="auto" 
+  width="600" 
+  title="Administrar pasos de plantilla">
+  <dxi-toolbar-item
+    widget="dxButton"
+    location="after"
+    [options]="{
+        icon: 'add',
+        onClick: agregarPaso
+    }">
+  </dxi-toolbar-item>
+  <div *dxTemplate="let data of 'content'">
+    <div class="pasos-container relative w-100 padding-15">
+      <app-loader *ngIf="isCallbacking"></app-loader>
+      <ng-container *ngIf="pasos.length < 1; else pasosListBlock;">
+        <div class="empty-page">
+          <div class="radius-container padding-45">
+            <mat-icon>inbox</mat-icon>
+            <div class="message">No hay pasos aún</div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</dx-popup>
+
+<ng-template #pasosListBlock>
+  <div [dragula]="'pasos-bag'" [dragulaModel]="pasos">
+    <ng-container *ngFor="let paso of pasos">
+      <mat-card class="mrg-btm-10" fxLayout="row" fxLayoutAlign="start center">
+        <div>
+          <mat-icon class="handler pointer mrg-right-10">open_with</mat-icon>
+        </div>
+        <div fxFlex="fxFill">
+          <div class="w-100">
+            <dx-select-box [dataSource]="usuarios"
+              placeholder="Seleccione al usuario aprobador"
+              valueExpr="id"
+              displayExpr="userName"
+              [(value)]="paso.usuarioId">
+              <div *dxTemplate="let user of 'item'">
+                  <div class="user-avatar" fxLayout="row" fxLayoutAlign="start center">
+                    <img userFoto [userName]="user?.userName">
+                    <div>
+                      {{ user.userName }}
+                    </div>
+                  </div>
+              </div>
+            </dx-select-box>
+          </div>
+        </div>
+        <div>
+          <button class="mrg-left-10" mat-icon-button (click)="borrarPaso(paso)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </ng-container>
+  </div>
+  <div class="mrg-top-10" fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button color="accent" (click)="grabar()">
+      Grabar
+    </button>
+  </div>
+</ng-template>

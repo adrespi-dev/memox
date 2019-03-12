@@ -1,0 +1,21 @@
+.bg {
+    background: green;
+}
+
+iframe {
+    height: 99%;
+}
+
+.absolute-button {
+    bottom: 35px;
+    z-index: 3;
+    right: 35px;
+    position: absolute !important;
+    left: 50%;
+    margin-left: -37px !important;
+    top: 20px;
+
+    &.rechazar {
+        top: 90px;
+    }
+}
