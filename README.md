@@ -1,6 +1,6 @@
-# PruebaDx
+# Memox
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
+Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3. Una vista en vivo de este proyecto puede ser encontrada en http://40.76.204.116:81
 
 ## Development server
 
